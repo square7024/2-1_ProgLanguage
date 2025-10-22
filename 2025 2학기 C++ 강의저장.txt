@@ -4636,3 +4636,451 @@ int main()
 }
 
 // islower(), toupper()
+
+============================================================================================================== 25.10.22
+
+// my ver.
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// FILE I/O
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "save.h"
+using namespace std;
+
+// [문제] "main.cpp"에 몇 단어가 있는 지 출력하라.
+// (단어) 공백으로 분리된 문자 집합을 말한다.
+// 이제 몇 개의 단어인지 알았다.
+// 이 단어들을 메모리에 모두 저장하면 qsort 할 수 있다.
+// 오름차순으로 정렬한 후 화면 출력하라.
+
+int ascending_order(const void*, const void*);
+
+//--------
+int main()
+//--------
+{
+	unsigned cnt{};			// 단어의 수를 여기에 저장
+	{
+		ifstream in{ "main.cpp" };
+		if (not in) {
+			return 20251020;
+		}
+
+		std::string str;
+		
+		while (in >> str)
+			++cnt;
+	}
+
+	// 이제 몇 단어인지 run-time에 알 수 있다.
+	cout << "단어의 수 - " << cnt << endl;
+	cnt = 0;
+	ifstream in{ "main.cpp" };
+	if (not in) {
+		return 20251020;
+	}
+
+	std::string str;
+
+	while (in >> str)
+		++cnt;
+
+	std::string* arr = new std::string[cnt];
+
+	in.clear();
+	cnt = 0;
+	while (in >> arr[cnt]) {
+		++cnt;
+	}
+
+	qsort(arr, cnt, sizeof(std::string), ascending_order);
+	for (int i = 0; i < cnt; ++i) {
+		cout << arr[i] << endl;
+	}
+
+	delete[] arr;
+
+	//save("main.cpp");
+}
+
+int ascending_order(const void* a, const void* b) {
+	/*string x = *(string*)a;
+	string y = *(string*)b;
+
+	if (x < y)
+		return -1;
+	if (x > y)
+		return 1;
+	return 0;*/
+	return *(char*)a - *(char*)b;
+}
+
+// 교수님 ver.
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// FILE I/O
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "save.h"
+using namespace std;
+
+// [문제] "main.cpp"에 몇 단어가 있는 지 출력하라.
+// (단어) 공백으로 분리된 문자 집합을 말한다.
+// 이제 몇 개의 단어인지 알았다.
+// 이 단어들을 메모리에 모두 저장하면 qsort 할 수 있다.
+// 오름차순으로 정렬한 후 화면 출력하라.
+
+int 정렬(const void*, const void*);
+
+//--------
+int main()
+//--------
+{
+	unsigned cnt{};			// 단어의 수를 여기에 저장
+	{
+		ifstream in{ "main.cpp" };
+		if (not in) {
+			return 20251020;
+		}
+
+		std::string str;
+		
+		while (in >> str)
+			++cnt;
+	}
+
+	// 이제 몇 단어인지 run-time에 알 수 있다.
+	cout << "단어의 수 - " << cnt << endl;
+
+	ifstream in{ "main.cpp" };
+	if (not in) {
+		return 20251022;
+	}
+
+	string* 단어들 = new string [cnt];
+
+	for (int i = 0; i < cnt; ++i) {
+		in >> 단어들[i];
+	}
+
+	cout << "정렬시작" << endl;
+	qsort(단어들, cnt, sizeof(string), 정렬);
+	cout << "정렬 끝" << endl;
+
+	for (int i = 0; i < cnt; ++i) {
+		cout << 단어들[i] << endl;
+	}
+
+	delete[] 단어들;
+
+	//save("main.cpp");
+}
+
+int 정렬(const void* x, const void* y) {
+	string s1 = *(string*)x;
+	string s2 = *(string*)y;
+
+	if (s1 < s2)
+		return -1;
+	if (s1 > s2)
+		return 1;
+	return 0;
+}
+
+// 교수님 강의저장 - main() 개수 ver.
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// FILE I/O
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "save.h"
+using namespace std;
+
+// [문제] "main.cpp"에 몇 단어가 있는 지 출력하라.
+// (단어) 공백으로 분리된 문자 집합을 말한다.
+// 이제 몇 개의 단어인지 알았다.
+// 이 단어들을 메모리에 모두 저장하면 qsort 할 수 있다.
+// 오름차순으로 정렬한 후 화면 출력하라.
+
+int 정렬(const void*, const void*);
+
+//--------
+int main()
+//--------
+{
+	unsigned cnt{};			// 단어의 수를 여기에 저장
+	{
+		ifstream in{ "2025 2학기 C++ 강의저장.txt" };
+		if (not in) {
+			return 20251020;
+		}
+
+		std::string str;
+		
+		while (in >> str)
+			++cnt;
+	}
+
+	// 이제 몇 단어인지 run-time에 알 수 있다.
+	cout << "단어의 수 - " << cnt << endl;
+
+	ifstream in{ "2025 2학기 C++ 강의저장.txt" };
+	if (not in) {
+		return 20251022;
+	}
+
+	string* 단어들 = new string [cnt];
+
+	for (int i = 0; i < cnt; ++i) {
+		in >> 단어들[i];
+	}
+
+	cout << "키를 누르면 정렬하겠다" << endl;
+	char key;
+	cin >> key;
+
+	cout << "정렬시작" << endl;
+	qsort(단어들, cnt, sizeof(string), 정렬);
+	cout << "정렬 끝" << endl;
+
+	for (int i = 0; i < cnt; ++i) {
+		cout << 단어들[i] << endl;
+	}
+
+	// main()은 몇 개일까?
+	unsigned int mainCnt{};
+	for (int i = 0; i < cnt; ++i) {
+		if (단어들[i] == "main()")
+			++mainCnt;
+	}
+	cout << "main() 개수 - " << mainCnt << endl;
+
+	delete[] 단어들;
+
+	//save("main.cpp");
+}
+
+int 정렬(const void* x, const void* y) {
+	string s1 = *(string*)x;
+	string s2 = *(string*)y;
+
+	if (s1 < s2)
+		return -1;
+	if (s1 > s2)
+		return 1;
+	return 0;
+}
+
+// 교수님 몇개인지 모르는 int ver.
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// FILE I/O
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "save.h"
+using namespace std;
+
+// [문제] "몇개인지모르는int"에 몇개의 int가 있는 지 출력하라.
+// (단어) 공백으로 분리된 문자 집합을 말한다.
+// 이제 몇 개의 단어인지 알았다.
+// 이 단어들을 메모리에 모두 저장하면 qsort 할 수 있다.
+// 오름차순으로 정렬한 후 화면 출력하라.
+
+//--------
+int main()
+//--------
+{
+	unsigned cnt{};			// 단어의 수를 여기에 저장
+	{
+		ifstream in{ "몇개인지모르는int" };
+		if (not in) {
+			return 20251020;
+		}
+
+		std::string str;
+		
+		while (in >> str)
+			cout << str << " " << endl;
+			++cnt;
+	}
+
+	// 이제 몇 단어인지 run-time에 알 수 있다.
+	cout << "int의 수 - " << cnt << endl;
+
+
+	//save("main.cpp");
+}
+
+// class
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// 사용자 정의 자료형 - 사용자가 원하는대로 메모리를 엮을 수 있는 자료형
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include "save.h"
+using namespace std;
+
+struct int2 {
+	int a;
+	int b;
+};
+
+//--------
+int main()
+//--------
+{
+	int2 a{};
+	cout << "a의 크기   - " << sizeof a << endl;
+	cout << "a의 자료형 - " << typeid(a).name() << endl;
+	cout << "a의 주소   - " << std::addressof(a) << endl;
+
+	//save("main.cpp");
+}
+
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// 사용자 정의 자료형 - 사용자가 원하는대로 메모리를 엮을 수 있는 자료형
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include "save.h"
+using namespace std;
+
+class int2 {
+	int a;
+	int b;
+};
+
+//--------
+int main()
+//--------
+{
+	int2 a{};
+	cout << "a의 크기   - " << sizeof a << endl;
+	cout << "a의 자료형 - " << typeid(a).name() << endl;
+	cout << "a의 주소   - " << std::addressof(a) << endl;
+
+	//save("main.cpp");
+}
+
+// 점과 직선사이의 거리, sqrt() my ver.
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// 사용자 정의 자료형 - 사용자가 원하는대로 메모리를 엮을 수 있는 자료형
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <random>
+#include "save.h"
+using namespace std;
+
+std::default_random_engine dre;
+uniform_int_distribution uidX{ -99, 99 };
+uniform_int_distribution uidY{ -99, 99 };
+
+// 2차원점을 나타내기 위한 자료형을 만든다.
+struct Point2D {
+	int x { uidX(dre) };
+	int y { uidY(dre) };
+};
+
+// [문제] 2차원점 100개 생성
+// 생성 위치 x, y좌표 모두 (-100, +100) 사이의 int 값으로 생성
+// 원점(0,0)에서 반경 20까지 영향을 주는 폭탄이 터졌다.
+// 어떤 점들이 폭탄반경안에 있는지 출력하라.
+
+//--------
+int main()
+//--------
+{
+	Point2D points[100];
+
+	for (int i = 0; i < 100; ++i) {
+		cout << "(" << points[i].x << ", " << points[i].y << ")" << endl;
+	}
+
+	// (힌트) 제곱근을 계산해 주는 함수 - sqrt
+	cout << "범위 안쪽의 점들" << endl;
+	for (int i = 0; i < 100; ++i) {
+		if ( sqrt( ( points[i].x * points[i].x ) + ( points[i].y * points[i].y )) <= 20 ) {
+			cout << "(" << points[i].x << ", " << points[i].y << ")" << endl;
+		}
+	}
+
+	//save("main.cpp");
+}
+
+// 교수님 ver.
+//-----------------------------------------------------------------------------------------------------------
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
+// 10/27 - 8주 1일 중간시험
+//-----------------------------------------------------------------------------------------------------------
+// 사용자 정의 자료형 - 사용자가 원하는대로 메모리를 엮을 수 있는 자료형
+//----------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <random>
+#include "save.h"
+using namespace std;
+
+std::default_random_engine dre;
+uniform_int_distribution uidX{ -99, 99 };
+uniform_int_distribution uidY{ -99, 99 };
+
+// 2차원점을 나타내기 위한 자료형을 만든다.
+struct Point2D {
+	// member data - data member
+	int x{ uidX(dre) };
+	int y{ uidY(dre) };
+
+	// member fuction - function member
+	void show() {
+		cout << "(" << x << ", " << y << ")" << endl;
+	}
+};
+
+// [문제] 2차원점 100개 생성
+// 생성 위치 x, y좌표 모두 (-100, +100) 사이의 int 값으로 생성
+// 원점(0,0)에서 반경 20까지(이하) 영향을 주는 폭탄이 터졌다.
+// 어떤 점들이 폭탄반경안에 있는지 출력하라.
+
+//--------
+int main()
+//--------
+{
+	Point2D points[100];
+
+	for (int i = 0; i < 100; ++i) {
+		points[i].show();
+	}
+
+	// (힌트) 제곱근을 계산해 주는 함수 - sqrt
+	cout << "반경 20이하 점들" << endl;
+	for (Point2D p : points) {
+		if (sqrt(p.x * p.x + p.y * p.y) <= 20) {
+			p.show();
+		}
+	}
+
+	//save("main.cpp");
+}
