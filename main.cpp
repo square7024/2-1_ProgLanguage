@@ -1,22 +1,33 @@
 //-----------------------------------------------------------------------------------------------------------
-// 2025 2학기 C++ 월56수78					10. 15 월요일                                             (6주 2일)
+// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
 // 10/27 - 8주 1일 중간시험
 //-----------------------------------------------------------------------------------------------------------
-// FILE I/O
+// 사용자 정의 자료형 - 사용자가 원하는대로 메모리를 엮을 수 있는 자료형
 //----------------------------------------------------------------------------------------------------------
 #include <iostream>
+#include <random>
 #include <fstream>
 #include <print>
 #include "save.h"
 using namespace std;
 
-// [문제] "몇개인지모르는int"에 정확하게 1000만개의 int가 저장되어 있다.
-// 오름차순으로 정렬하고 20칸마다 한 개씩 모두 출력하라.
+int ascending_order(const void* a, const void* b)
+{
+	int x = *(int*)a;
+	int y = *(int*)b;
+
+	if (x < y)
+		return -1;
+	if (x > y)
+		return 1;
+	return 0;
+}
 
 //--------
 int main()
 //--------
 {
+
 	std::ifstream in{ "몇개인지모르는int" };
 
 	if (not in) {
@@ -24,21 +35,17 @@ int main()
 	}
 
 	int num;
-	int nums[1000'0000]{ };
+	in >> num;
+	cout << num << endl;
+	int* ptr = new int[num];
 	unsigned cnt{};
-	cout << "1" << endl;
 	while (in >> num) {
-		nums[cnt] = num;
+		ptr[cnt] = num;
 		++cnt;
 	}
-	cout << "nums 완료" << endl;
 
-	
-	cout << "정렬 완료" << endl;
+	cout << "cnt = " << cnt << "\n";
+	cout << ptr[cnt - 1] << endl;
 
-	for (int i = 0; i < 1000'0000; ++i) {
-		print("{:20}", nums[i]);
-	}
 
-	//save("main.cpp");
 }
