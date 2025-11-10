@@ -1,51 +1,42 @@
 //-----------------------------------------------------------------------------------------------------------
-// 2025 2학기 C++ 월56수78					10. 22 수요일                                             (7주 2일)
-// 10/27 - 8주 1일 중간시험
+// 2025 2학기 C++ 월56수78					11. 10 월요일                                             (10주 1일)
+// 12/15 - (15주 1일) 기말시험 - 다형성(코드는 수업에 사용한 그대로)
 //-----------------------------------------------------------------------------------------------------------
-// 사용자 정의 자료형 - 사용자가 원하는대로 메모리를 엮을 수 있는 자료형
+// 사용자 정의 자료형 - 생성자/소멸자 -> 함수(뭐든지 할 수 있다)
+// std::string의 동작을 흉내낸 클래스 STRING을 직접 만들어 보면서 이해한다.
+// 
+// 이 class는 자원을 관리한다 - RAII
+// copy constructor, copy assignment operator --> 깊은 복사(deep copy)
 //----------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <random>
-#include <fstream>
-#include <print>
+#include <string>
 #include "save.h"
+#include "STRING.h"
 using namespace std;
 
-int ascending_order(const void* a, const void* b)
-{
-	int x = *(int*)a;
-	int y = *(int*)b;
+int ascending_order(const void*, const void*);
 
-	if (x < y)
-		return -1;
-	if (x > y)
-		return 1;
-	return 0;
+int ascending_order(const void* a, const void* b) {
+
 }
 
 //--------
 int main()
 //--------
 {
+	STRING s[]{ "333", "22", "55555", "1", "4444" };
 
-	std::ifstream in{ "몇개인지모르는int" };
+	// [문제] s를 길이기준 오름차순으로 정렬하라. - qsort를 사용
 
-	if (not in) {
-		return 20251510;
-	}
+	for (const STRING& s : s)
+		s.show();
 
-	int num;
-	in >> num;
-	cout << num << endl;
-	int* ptr = new int[num];
-	unsigned cnt{};
-	while (in >> num) {
-		ptr[cnt] = num;
-		++cnt;
-	}
+	qsort(s, sizeof s, sizeof s / sizeof s[1], ascending_order);
 
-	cout << "cnt = " << cnt << "\n";
-	cout << ptr[cnt - 1] << endl;
+	cout << "정렬완료" << endl;
 
+	for (const STRING& s : s)
+		s.show();
 
+	//save("main.cpp");
 }

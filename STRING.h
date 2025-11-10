@@ -18,14 +18,18 @@
 class STRING {
 public:
 	// 2025. 11. 5
-	STRING();						// 스페셜 함수
-	~STRING();						// 스페셜 함수
+	STRING();						// 1. 스페셜 함수
+	~STRING();						// 2. 스페셜 함수
 
 	STRING(const char* str);		// 스페셜 함수가 아니다.
 
+	// 2025. 11. 10
+	STRING(const STRING& OTHER);	// 3. 복사생성자(스페셜 함수)
+	STRING& operator=(const STRING&);		// 4. 복사할당연산자
+
 	unsigned length();
 
-	void show();
+	void show() const;				// 2025. 11. 10 const 일관성
 
 private:
 	unsigned len{};
