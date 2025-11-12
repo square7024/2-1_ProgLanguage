@@ -4,6 +4,7 @@
 // 
 // 2025. 11. 5
 // 2025. 11. 10 복사생성자
+// 2025. 11. 12 관찰하고 싶을때만 관찰메시지 출력
 //-----------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <print>
@@ -13,12 +14,16 @@ using namespace std;
 // 2025. 11. 5
 unsigned STRING::gid{ 0 };
 
+// 2025. 11. 12
+bool 관찰{ false };
+
 // 2025. 11. 5
 STRING::STRING()						// 스페셜 함수
 	: id { ++gid }
 {
 	// 관찰메시지
-	println("[{:5}] 생성자()       - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", id, (void*)this, len, (void*)p);
+	if ( 관찰 )
+		println("[{:5}] 생성자()        - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", id, (void*)this, len, (void*)p);
 }
 
 STRING::~STRING()						// 스페셜 함수
@@ -30,7 +35,8 @@ STRING::~STRING()						// 스페셜 함수
 	// len = 0;
 
 	// 관찰메시지
-	println("[{:5}] 소멸자         - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", id, (void*)this, len, (void*)p);
+	if (관찰)
+		println("[{:5}] 소멸자          - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", id, (void*)this, len, (void*)p);
 }
 
 STRING::STRING(const char* str)
@@ -41,7 +47,8 @@ STRING::STRING(const char* str)
 	// 복사는 반드시 이렇게 - DMA(Direct Memory Access)
 	memcpy(p, str, len);
 	// 관찰메시지
-	println("[{:5}] 생성자(char*)  - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", id, (void*)this, len, (void*)p);
+	if (관찰)
+		println("[{:5}] 생성자(char*)   - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", id, (void*)this, len, (void*)p);
 }
 
 // 2025. 11. 10 - 3. 복사생성자
@@ -53,8 +60,9 @@ STRING::STRING( const STRING& other )
 	p = new char[len];
 	memcpy(p, other.p, len);
 	// 관찰메시지
-	println("[{:5}] 복사생성자      - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", 
-		id, (void*)this, len, (void*)p);
+	if (관찰)
+		println("[{:5}] 복사생성자      - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}", 
+			id, (void*)this, len, (void*)p);
 }
 
 // 2025. 11. 10 - 4. 복사할당연산자
@@ -72,10 +80,22 @@ STRING& STRING::operator=(const STRING& other)
 	memcpy(p, other.p, len);
 
 	// 관찰메시지
-	println("[{:5}] 복사할당연산자 - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}",
-		id, (void*)this, len, (void*)p);
+	if (관찰)
+		println("[{:5}] 복사할당연산자 - 내주소:{:014}, 글자수:{:3}, 글자주소:{:014}",
+			id, (void*)this, len, (void*)p);
 
 	return *this;
+}
+
+// 2025. 11. 12
+STRING STRING::operator+(const STRING& rhs)
+{
+	STRING temp;							// STRING temp(s1) <--- 개선 ver.
+	temp.len = len + rhs.len;				// 더한 스트링의 길이
+	temp.p = new char[temp.len];			// 메모리 확보
+	memcpy(temp.p, p, len);					// 메모리에 왼쪽 오퍼런드의 내용 복사
+	memcpy(temp.p + len, rhs.p, rhs.len);	// 메모리에 오른쪽 오퍼런드의 내용 복사
+	return temp;
 }
 
 unsigned STRING::length()

@@ -27,8 +27,13 @@ public:
 	STRING(const STRING& OTHER);	// 3. 복사생성자(스페셜 함수)
 	STRING& operator=(const STRING&);		// 4. 복사할당연산자
 
-	unsigned length();
+	// 연산자 오버로딩 함수는 여기에
+	// 2025. 11. 12
+	STRING operator+(const STRING& rhs);
 
+
+	// 인터페이스 함수 - 클래스의 정보를 바깥 세상에 전달
+	unsigned length();
 	void show() const;				// 2025. 11. 10 const 일관성
 
 private:
